@@ -1,0 +1,37 @@
+label {
+    font-style: italic;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .form-control {
+        height: 35px;
+    }
+
+    .new-interest {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 30vw;
+        max-width: 30vw;
+
+        
+
+        .errors {
+            color: red;
+            font-weight: 600;
+        }
+    }
+
+
+}

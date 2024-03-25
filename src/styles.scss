@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+$primary: rgb(31, 31, 72);
+$secondary: rgb(7, 81, 89);
+$tertiary: rgb(246, 246, 4);
+
+@import 'bootstrap';
+
+.form-control:focus {
+    border-color: none;
+    box-shadow: 0.25rem 0.25rem 0.25rem 0.1rem $secondary
+}

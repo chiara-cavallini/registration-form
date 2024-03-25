@@ -1,58 +1,67 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" formControlName="username" class="form-control">
-        <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
-            <div *ngIf="usernameErrors && usernameErrors['hasError']('required')">
-                Username obbligatorio.
-            </div>
+<div class="container">
+    <h1 class="text-secondary">{{ 'registration form excercise!' | uppercase }}</h1>
+    <form class="form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="username" class="form-label text-primary">Username</label>
+            <input type="text" id="username" formControlName="username" class="form-control"
+                [class.is-invalid]="registrationForm.controls['username'].invalid">
+            <ng-container *ngIf="isUsernameTouchedOrInvalid">
+                <div class="errors" *ngIf="usernameErrors && usernameErrors['required']">
+                    Username obbligatorio.
+                </div>
+            </ng-container>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email" class="form-control">
-        <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-            <div *ngIf="emailErrors && emailErrors['hasError']('required')">
-                Email obbligatoria.
-            </div>
-            <div *ngIf="emailErrors && emailErrors['hasError']('email')">
-                Formato email non valido.
-            </div>
+        <div class="form-group">
+            <label for="email" class="form-label text-primary">Email</label>
+            <input type="email" id="email" formControlName="email" class="form-control"
+                [class.is-invalid]="registrationForm.controls['email'].invalid">
+            <ng-container *ngIf="isEmailTouchedOrInvalid">
+                <div class="errors" *ngIf="emailErrors && emailErrors!['required']">
+                    Email obbligatoria.
+                </div>
+                <div class="errors" *ngIf="emailErrors && emailErrors!['email']">
+                    Formato email non valido.
+                </div>
+            </ng-container>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password" class="form-control">
-        <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-            <div *ngIf="passwordErrors && passwordErrors['hasError']('required')">
-                Password obbligatoria.
-            </div>
-            <div *ngIf="passwordErrors && passwordErrors['hasError']('minlength')">
-                La password deve avere almeno 6 caratteri.
-            </div>
+        <div class="form-group">
+            <label for="password" class="form-label text-primary">Password</label>
+            <input type="password" id="password" formControlName="password" class="form-control"
+                [class.is-invalid]="registrationForm.controls['password'].invalid">
+            <ng-container *ngIf="isPasswordTouchedOrInvalid">
+                <div class="errors" *ngIf="passwordErrors && passwordErrors['required']">
+                    Password obbligatoria.
+                </div>
+                <div class="errors" *ngIf="passwordErrors && passwordErrors['minlength']">
+                    La password deve avere almeno 6 caratteri.
+                </div>
+            </ng-container>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="confirmPassword">Conferma Password</label>
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
-        <div *ngIf="
-                registrationForm.get('confirmPassword')?.invalid && 
-                registrationForm.get('confirmPassword')?.touched">
-            <div *ngIf="confirmPasswordErrors && confirmPasswordErrors['hasError']('required')">
-                Conferma password obbligatoria.
+        <div class="form-group">
+            <label for="confirmPassword" class="form-label text-primary">Conferma Password</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control"
+                [class.is-invalid]="registrationForm.controls['confirmPassword'].invalid">
+            <ng-container *ngIf="isConfirmPasswordTouchedOrInvalid">
+                <div class="errors" *ngIf="confirmPasswordErrors && confirmPasswordErrors['required']">
+                    Conferma password obbligatoria.
+                </div>
+            </ng-container>
+        </div>
+        <div formArrayName="interests">
+            <div class="new-interest mb-2" *ngFor="let interest of interests.controls; let i = index">
+                <input type="text" [formControlName]="i" class="form-control">
+                <button type="button" class="btn btn-outline-secondary" (click)="removeInterest(i)">
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                </button>
             </div>
+            <button class="btn btn-outline-primary" (click)="addInterest()">
+                Aggiungi Interesse
+            </button>
         </div>
-    </div>
-    <div formArrayName="interests">
-        <div *ngFor="let interest of interests.controls; let i = index">
-            <input type="text" [formControlName]="i" class="form-control">
-            <button type="button" (click)="removeInterest(i)">Rimuovi</button>
-        </div>
-        <button type="button" (click)="addInterest()">
-            Aggiungi Interesse
+        <button type="submit" class="btn btn-primary" [class.disabled]="!registrationForm.valid">
+            Registrati
         </button>
-    </div>
-    <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary">
-        Registrati
-    </button>
-</form>
+    </form>
+</div>
